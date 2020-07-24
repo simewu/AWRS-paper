@@ -1,0 +1,44 @@
+\title{Anti-Withholding Reward System\\
+to Secure Bitcoin Mining Pools}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Arijet Sarker \and
+Simeon J. Wuthier \and
+Sang-Yoon Chang}
+
+\authorrunning{Arijet et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{University of Colorado at Colorado Springs} 
+
+%\institute{Princeton University, Princeton NJ 08544, USA \and
+%Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
+%\email{lncs@springer.com}\\
+%\url{http://www.springer.com/gp/computer-science/lncs} \and
+%ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
+%\email{\{abc,lncs\}@uni-heidelberg.de}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+Miners are rewarded for processing transactions and generating new blocks in decentralized cryptocurrency systems such as Bitcoin.
+To reduce the variance of mining, the miners join mining pools to earn a more stable reward income, and the reward earned by a mining pool is shared among the participating miners according to their contributions to the pool. However, the miner-based attacks such as Block Withholding (BWH) and Fork After Withholding (FAW) yields unfair reward advantage to the attacker while pretending to contribute to the victim pool.
+This paper introduces Anti-Withholding Reward System (AWRS) to prevent FAW and BWH attacks. Implemented only at the pool manager (reducing the implementation/adoption overhead and supporting backward-compatibility), AWRS deprives the incentives for FAW and BWH and reduces the rational attacker to follow the protocol (honest mining) by providing greater reward portion for block submissions. According to our analyses focusing on defending against FAW attack (more advanced than BWH), AWRS completely disincentives FAW attack and makes the optimal attacker behavior to become honest mining regardless of the attacker's computational power capability or its infiltration strategy.
+	
+% Miners are rewarded for processing transactions and generating new blocks in decentralized cryptocurrency systems such as Bitcoin.
+% To reduce the variance of mining, 
+% the miners join mining pools to earn more stable reward income, %over time. 
+% and the reward earned by a mining pool is shared among the participating miners according to their contributions to the pool. 
+% However, the miner-based attacks such as Block Withholding (BWH) and Fork After Withholding (FAW) yields unfair reward advantage to the attacker while pretending to contribute to the victim pool.
+% This paper introduces Anti-Withholding Reward System (AWRS) %implemented at the mining pool manager 
+% to prevent FAW and BWH attacks. %, which builds on and advances BWH. 
+% Implemented only at the pool manager (reducing the implementation/adoption overhead and supporting backward-compatibility), AWRS deprives the incentives for FAW and BWH and reduces the rational attacker to follow the protocol (honest mining) by introducing greater reward portion for block submissions.
+% According to our analyses focusing on FAW (which is more advanced than BWH), AWRS completely disincentives FAW attack and makes the optimal attacker behavior to become honest mining regardless of the attacker's computational power capability or its infiltration strategy. 
+
+
+\keywords{Blockchain Mining  \and Mining Pool \and Block Withholding \\  Attack \and Fork After Withholding}
+\end{abstract}

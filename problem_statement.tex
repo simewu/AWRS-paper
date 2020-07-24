@@ -1,0 +1,75 @@
+%\section{Problem Statement}
+%\label{sec:problem}
+\subsection{Threat Model}
+\label{related:threat_model}
+Our threat model is comparable to that of BWH and FAW attack, which has been realized in real-world attacks as described in Section~\ref{subsec:related_work}.
+The attacker which acts as a miner has the \emph{main pool} and a compromised \emph{victim pool}.
+
+
+The two pools are different in the attacker's strategy because the attacker does not share its reward in the main pool, e.g., solo mining or closed pool with attacker-controlled miners, while it does share the reward with other miners in the victim pool. %which the resulting rewards is given to the attacker only)
+The attacker can freely split is computational power resources across the two mining pools;
+we call the mining used on the victim pool \emph{infiltration mining} and allocate $\tau$ fraction of the attacker's power capability to infiltration mining.
+Our threat model only requires the compromise of the victim pool, as opposed to compromising the mining pool manager.
+%which is realizable especially if the vitcim pool is an open pool and makes it a realistic threat model (as has been demonstrated with real-world attack events described in Section~\ref{subsec:related_work}).
+%In this section, the assumptions and threat model for our work are described:
+%\begin{itemize}
+%   \item The attack is considered only against one pool and is not feasible against a closed pool since it requires private information. No other attack such as BWH attack or, selfish mining are considered in parallel with FAW attack.
+%   \item The attacker can be a solo miner or, manager of an open or closed pool. The attacker can distribute its finite computational power into any fraction for both innocent mining and infiltration mining.
+%   \item The total computational power of the Bitcoin system is normalized as 1 and all the other computational power are fractions of this normalized value. The total computational power of the attacker or, victim pool is less than 0.5 to prevent 51\% attack.
+%   \item The reward for a valid block is also normalized as 1 BTC and the reward of a block is distributed in the mining pool according to the number of PPoWs submitted by the miners.
+%\end{itemize}
+
+The attacker is also rational and driven by incentives. 
+If the attack yields reward lower than honest mining (following the protocol and submitting the block when they are found), then the attacker will switch to honest mining. 
+This is the goal of our scheme. 
+
+
+Mining process is computation-fair, as opposed to identity fair.
+Given the same amount of computational power, the attacker's capability is the same regardless of the number of accounts/addresses the attacker controls.
+Therefore, our work does not rely on detection- or identification-based approaches for defending against mining threats (e.g., blacklisting);
+such approach will be ineffective because Bitcoin and other blockchain-based digital currencies are designed for anonymity and an attacker can switch to another address if it gets blacklisted.
+Rather, our scheme controls the reward distribution by the mining pool manager to prevent the attack by depriving of the incentives for conducting the mining threats.
+
+\subsection{FAW Attack}
+\label{subsec:faw_attack}
+Fork After Withholding (FAW) attack advances BWH attack by conditionally releasing the withheld blocks~\cite{b4}.
+%An advanced miner is capable of partitioning a portion of their computational power to infiltration mining. In this scenario, when the miner finds a share through infiltration mining on another pool, they will submit it to show the pool manager that they are helping in the search for a block \cite{b3}. This miner will reap the benefits from that victim pool.
+The block is only submitted when there is a block submitted by a third-party miner (outside of the main and the victim pool), which causes fork and hence the name Fork After Withholding (FAW).
+This introduces an additional reward to the attacker beyond BWH attack because the intentionally forked block can win the forking race.
+%When the miner finds a block then they do not submit it until another user in the world broadcasts that they have also found a block. By doing this, the pool manager will buy themselves more time for solo-mining, while also bringing the chance that the fork they created will become a stale block. This is known as Fork After Withholding \cite{b4}.
+%This attack can be represented probabilistically by using Bayes theorem.
+Kwon et al.~\cite{b4} introduce the FAW attack and analyze its reward performance, establishing that the FAW attack is practical and provides a real incentive to the rational miners since it increases the reward while forgoing Miner's dilemma (depriving of the incentive for inter-pool cooperations).
+We adapt the following results from their work in this section.
+
+Assuming that $\alpha$ is the attacker's power capability normalized by the entire power network,
+$\beta$ the victim pool's power capability normalized by the entire power network (e.g., $\alpha+\beta \leq 1$ and $\alpha+\beta < 1$ if there are other active miners outside of the two attacker-involved pools),
+$c$ the probability that the attacker wins the forking race for the withheld block given that the attacker-intentional fork has occurred,
+and $\tau$ is the attacker's infiltration power as defined in Section~\ref{related:threat_model} (e.g., the attacker's power for infiltration mining is $\alpha \tau$),
+%that all these variables are normalized (e.g., $\alpha$ and $\beta$ normalized by the entire network power),
+the attacker's expected reward for launching FAW attack is the following:
+%We denote $\alpha$ as the computing power of the attacker with respect to the entire network. This value will be a percentage from zero to one describing what percentage of the network the attacker is taking up. Similarly, we denote $\beta$ as the percentage of computing power of the victim pool has with respect to the entire network, not including the attacker within the pool.  The FAW attack consists of the attacker partitioning part of her computing power to honest mining on her own, and the other part to infiltration mining a victim pool. The variable $\tau$ describes the partition to infiltration mining as a percentage between zero and one, where $\tau=0.2$ means that the attacker is dedicating 20\% of her computing power to infiltration mining a victim pool. So $\tau\alpha$ is the computing power of the attacker for infiltration mining, with respect to the entire network. If $\beta=\tau\alpha$ then exactly half of the victim pool is being infiltration mined without the pool manager knowing. And finally, $c$ is the probability that the attacker wins the reward and has their infiltration-mined block added to the main chain, given that there is a fork. The equation to show the total reward given to the attacker in this situation can be represented as
+\begin{eqnarray}
+R_{\mbox{FAW}}=\frac{(1-\tau)\alpha}{1-\tau\alpha}+\left(\frac{\beta}{1-\tau\alpha}+c\tau\alpha\left(\frac{1-\alpha-\beta}{1-\tau\alpha}\right)\right)\frac{\tau\alpha}{\beta+\tau\alpha}
+\label{eqn:reward_faw}
+\end{eqnarray}
+%Where $R_{FAW}$ is a percentage between zero and one of the full reward given to the pool. If the attacker were to choose honest mine as opposed to both honest and infiltration mine, then the attacker's reward would be $R_{HONEST}=\alpha$ because the proportion of the attacker's computing power would be equal to the proportion of reward. Likewise, the reward for block withholding, never submitting the block, and only submitting the shares, would be $R_{BWH}=\tau\alpha$.
+
+If the attacker follows the protocol and behaves honestly, then $R_{\mbox{HONEST}}=\alpha$,
+because the reward is proportional to the attacker's mining power by design of the PoW mining process.
+If the attacker launches BWH attack, then the corresponding reward $R_{\mbox{BWH}}$ reduces to the $R_{\mbox{FAW}}$ reward in Equation~\ref{eqn:reward_faw} when $c=0$ since not submitting the block in BWH is equivalent to the attacker never winning the forking race in FAW. %  without the third term containing
+In other words, FAW attack is more powerful and yields greater reward to the attacker than BWH attack,
+and the reward difference depends on $c$.
+
+The attacker's optimal $\tau$ control (which maximizes the attacker's reward) can also be computed:
+%Since the attacker has control over $\tau$, there is a value $\hat{\tau}$ which is the optimal reward for the attacker.
+\begin{eqnarray}
+% Resizes the equation to 92% of it's original size
+\resizebox{.92\hsize}{!}{$
+\hat{\tau}_{\mbox{FAW}}=\frac{(1-\alpha)(1-c)\beta+\beta^2c-\beta\sqrt{(1-\alpha-\beta)^2 c^2+((1-\alpha-\beta)(\alpha\beta+\alpha-2))c-\alpha(1+\beta)+1}} {\alpha(1-\alpha-\beta)(c(1-\beta)-1)}
+$} 
+\label{eqn:optimal_tau_faw}
+\end{eqnarray}
+
+%The financial reward given to the attacker through block withholding can be improved through the FAW protocol, i.e. $R_{FAW}\geq R_{BWH}$. Because of this, dishonest miners are incentivised to withhold their blocks until another one is broadcasted, in which case the infiltration miner will broadcast their withheld block to disrupt the pool and force a fork to occur within the network. With this attack, the pool will not be able to detect the attack with certainty, and therefore will not be able to do anything to prevent it. Since the pool manager has the miner's address, he can blacklist the attacker, however, this would not be effective since the blockchain is anonymous and the attacker can just as easily spoof to a new address to infiltration mine from. The pool manager has no way of being certain that he is being attacked, however, by simply analyzing the time between an external miner's broadcast and an internal miner's broadcast, over a period of time, the pool manager can gain a rough idea if he has any infiltration miners.
+
+%Detecting an FAW attack requires the pool manager to have knowledge of the attacker's computing power. When a block is submitted to the pool manager, the manager can check if an external block was also submitted, if that is the case, then the pool manager has the possibility of having an infiltration miner, or it was a coincidence that two blocks were found at once. 

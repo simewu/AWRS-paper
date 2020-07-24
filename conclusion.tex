@@ -1,0 +1,10 @@
+\section{Conclusion}
+%By analyzing FAW Attack against pool mining, our work shows how this attack can be mitigated by simply changing the amount of reward given to the block submitter. Our work is also effective against BWH attack since the reward of BWH attacker is the lower bound of the FAW attacker.
+AWRS prevents FAW attack and BWH attack by depriving their incentives;
+the attacker is better left off mining honestly.
+We analyze the critical parameter control in $\Gamma$, which is the pool's reward to the block submitter, which forces the optimal attacker to mine honestly. 
+In AWRS, the $\Gamma$ control is independent to the attacker's infiltration control in $\tau$ because the attacker's diverging from honest mining and using greater $\tau$ only reduces his reward. 
+In addition to AWRS being oblivious to the attacker's control, AWRS only incurs changes in the mining pool manager, providing a practical solution for implementation.
+%Using our $\Gamma_{\mbox{BE}}$ equation, we can tweak the block submitter's reward in such a way that infiltration mining will yield a reward less than or equal to honest mining. More importantly, the pool manager does not need to have any knowledge about the attacker's infiltration mining power. Because of this reason, our work provides a solution that is both effective and easy to apply, without requiring any other changes to the pool's configuration.
+
+

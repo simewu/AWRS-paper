@@ -1,0 +1,36 @@
+\section{Introduction}
+
+Since Bitcoin's release in 2008 \cite{b1}, blockchain technology has %skyrocketed, and the notion of a distributed consensus has
+flourished and provided the opportunity for new developments that can bypass the central authority for financial and security-sensitive transactions. % within a trust-sensitive protocol.
+%By decentralizing an agreement between peers, there is no need to rely on honesty since every other peer in the network is capable of proving that a block in the blockchain is valid, and leading to a distributed consensus between peers, as explained in Section 2.
+Blockchain, comprised of an unalterable linear chain of transactions put into blocks,
+generates and reaches consensus on new blocks by using a proof of work (PoW) mining
+based on a probabilistic computational puzzle.
+Mining is computationally fair (the greater the computational power the more likely to mine a valid PoW and generate the new block)
+and, in order to lower the reward variance and provide a more stable reward,
+miners join mining pools.
+%and popularly involves mining pools, as there is lower reward variance and a more stable reward income.
+Mining pool is popular, for example, at the time of writing, only eight mining pools comprise of more than 88\% of the entire network's computational power~\cite{b12}.
+%Mining pools currently have the majority of the Bitcoin network, with BTC.com currently taking 17.9\% of Bitcoin's computing power ~\cite{b12}. Solo mining is similar to participating in a lottery, where the chance of finding a PoW before the rest of the network is a low. With such a high reward variance, solo-mining is not the ideal solution for investors. %, as described in Section~\ref{sec:preliminaries}.
+%\textbf{SYC!!!: List support/fact for the popularity of mining pools.} % The creation of blocks is done through generating a proofs of work (i.e. block) by solving computational puzzles which the entire Bitcoin network is also working on solving. Thus, those who have a larger computational power have a better chance of solving this puzzle. Once the puzzle is solved, the new block is broadcasted to the rest of the network, if the blockheight is greater than another peer's current block, then that peer will switch to the block with the greater blockheight, as there is no incentive in working on an outdated block unless a miner has greater than 50\% of the network. Since the PoW protocol relies on computational power, users tend to join in mining pools, where the computational power of the pool is equivalent to summing together every miner’s power. Thus the frequency of receiving a reward is increased significantly and miners are paid smaller amounts more frequently to even out the reward that would be made via solo-mining. The block reward gets split in the pool according to the participating miner’s computational power.
+However, mining pools are susceptible to various attacks %such as selfish mining \emph{block withholding (BWH)} and \emph{fork after withholding (FAW)}.
+in Block Withholding (BWH) and Fork After Withholding (FAW).
+These attacks are based on withholding blocks on the victim pool and are practical threats for rational attackers driven by financial/reward incentives. %, as discussed in Section~\ref{sec:threat}.
+%Though selfish mining is widely recognized as impractical.
+%The BWH attack is also not profitable when two mining pools attack each other. This is called miner's dilemma where the revenue of both the pools is reduced if they attack each other. But, FAW attack does not hold miner's dilemma and the FAW attacker's reward is always greater than or equal to block.
+
+We propose Anti-Withholding Reward System (AWRS) to defend against BWH and FAW attack and deprive of the incentives of the attacks.
+AWRS introduces asymmetry between blocks and shares by distributing a portion of the pool reward to the block submissions.
+AWRS is implemented at the mining pool manager and does not incur any changes in the miners' implementations because it only changes the reward distribution controlled by the pool manager;
+therefore, it presents a solution to BWH and FAW attacks which can be quickly implemented and adopted for practice.
+We study AWRS in theoretical analyses and in simulations to show its effectiveness
+against a rational attacker capable of optimizing its strategies for maximum reward.
+We focus on the FAW attack because it builds on BWH and is the stronger attack;
+our performances is even better (greater options for control parameters) against BWH attack. 
+Our analyses results show that AWRS reduces the rational attacker strategy to honest mining (no withholding of blocks), completely depriving of the incentives to launch the attacks, regardless of the attacker's computational power capability and his infiltration strategy.
+%In this paper, a simple technique is discussed to as a countermeasure to the FAW attack, known as the \emph{anti-withholding reward scheme (AWRS)}. According to this technique, a special reward is given to the miner who actually finds the valid block within the mining pool. The effect of this special reward system, AWRS is analyzed thoroughly. It is shown that the reward of the FAW attacker becomes equal to honest mining when the pool manager of the victim pool adopts AWRS. The proposed AWRS also diminish the effect of attacker's mining power in the victim pool to such a extent that the attacker will be repulsive to launch the attack against the mining pool.
+
+The rest of the paper is organized as follows and provides greater details.
+Section~\ref{sec:preliminaries} describes the background information on blockchain which are the most relevant to our work,
+and Section~\ref{sec:threat} establishes the threat and the problem, which motivated our work.
+AWRS is introduced in Section~\ref{sec:awrs} and is analyzed in theory and in simulations in Section~\ref{sec:theoretical_analyses} and Section~\ref{sec:simulations}, respectively. %, to show its effectiveness. 

@@ -1,0 +1,73 @@
+\section{Theoretical Analyses}
+\label{sec:theoretical_analyses}
+%The victim pool manager can only have the knowledge of $\tau \alpha$ (the computing power of the attacker's infiltration mining power). But since $\tau$ and $\alpha$ cannot be separated, the pool manager can assume the worst case for his pool, where $\tau=\hat{\tau}$, $\hat{\tau}$ is the optimized infiltration mining power of the attacker to receive the maximum reward possible.
+The mining pool manager of the victim pool implements AWRS in order to protect the integrity of its reward distribution (so that the reward is proportional to each miner's computation power for block finding) and incentivize honest mining for the rational miners. % the benefits of the honest miners' rewards.
+We assume the worst-case attacker capable of correctly estimating the relevant parameters and achieving $\tau=\hat{\tau}$ to maximize its reward;
+AWRS works even better against weaker attackers lacking such capabilities.
+
+
+
+%While the attacker is able to control $\tau$, we propose the pool manager be able to control the special reward given to the block solver, which will be different from the other miner's rewards within the pool. The reward given to the block submitter is denoted as $\Gamma$. $\Gamma$ is the fraction of the total block reward. It is a value between zero and one. $\Gamma=0$ means there is no bonus reward to the block submitter for finding a block whereas $\Gamma=1$ means only the block submitter will receive the total block reward. This is the same as solo-mining, since nobody else in the pool will receive a reward. Adding this variable, the equation becomes
+Against AWRS, there are three distinct events when the attacker wins positive rewards:
+i) when the attacker finds the block in its main pool; ii) when another miner from the victim pool, not the attacker, finds the block (the FAW attacker submits the shares and reaps the benefits from those without actually contributing to the block finding);
+and iii) a third-party miner finds a block and the attacker submits the withheld block.
+The event i) has a probability of $\frac{(1-\tau)\alpha}{1-\tau\alpha}$ because the attacker spends $1-\tau$
+while there is $1-\tau\alpha$ power to finding the block across the entire network (because the attacker uses $\tau\alpha$ only for share submissions);
+the attacker's reward given event i) is 1 since he does not share the reward with other miners in the main pool.
+The event ii) occurs with a probability of $\frac{\beta}{1-\alpha\tau}$ because the victim pool, excluding the attacker, mines with a power of $\beta$;
+if event ii) occurs, then the attacker wins a reward of $\frac{\alpha\tau}{\beta + \alpha \tau} \cdot (1-\Gamma)$ due to his share submissions and the $(1-\Gamma)$ scale from AWRS.
+The event iii) occurs with a probability of $c\tau\alpha\left(\frac{1-\alpha-\beta}{1-\tau\alpha}\right)$
+where the $\tau\alpha\left(\frac{1-\alpha-\beta}{1-\tau\alpha}\right)$ is the probability that the attacker found a block (withheld) and so did a third-party miner (submitting its own block) and $c$ is the probability of the attacker winning given that the fork occurred;
+if this event occurs, the attacker has a reward of $\Gamma$ for being the block submitter and additional $(1-\Gamma) \frac{\tau\alpha}{\beta + \tau \alpha}$ from the share submissions.
+Summing them together, the FAW attacker's expected reward becomes:
+\begin{eqnarray}
+% Resizes the equation to 92% of it's original size
+\resizebox{.92\hsize}{!}{$
+R_{\mbox{AWRS}}=\frac{(1-\tau)\alpha}{1-\tau\alpha}+\left(\frac{\beta}{1-\tau\alpha}\right)\left(\frac{\tau\alpha}{\beta+\tau\alpha}\right)(1-\Gamma)+c\tau\alpha\left(\frac{1-\alpha-\beta}{1-\tau\alpha}\right)(\Gamma+(1-\Gamma)\left(\frac{\tau\alpha}{\beta+\tau\alpha}\right))
+$}
+\label{eqn:reward_awrs}
+\end{eqnarray}
+
+Against AWRS, the attacker chooses the following $\tau$ to maximize his reward: 
+\begin{eqnarray}
+% Resizes the equation to 92% of it's original size
+\resizebox{.92\hsize}{!}{$
+\hat{\tau}_{\mbox{AWRS}}=\frac{\alpha\beta(\alpha-1-c(\alpha+\beta-1))+\sqrt{-(\alpha^2)\beta^2(\Gamma-1+c(\alpha+\beta-1)(\Gamma-1))(1-\alpha(1+\beta)+\beta\Gamma+c(\alpha+\beta-1)(1+\beta\Gamma))}}{\alpha^2(1-\alpha+\beta(\Gamma-1)+c(\alpha+\beta-1)(1+\beta(\Gamma-1)))}
+$}
+%\label{\tauhatawrs}
+\end{eqnarray}
+
+
+
+%The first term is from the attacker's reward in the main pool (the attacker spends $1-\tau$ on the main pool while there is $1-\tau\alpha$ power being contributed to the overall mining of the block mining, as $\tau\alpha$ is the attacker's power submitting shares but withholding blocks), the second term
+
+
+%Also, the optimal attacker strategy (maximizing its reward at the expense of the other miners), $\hat{\tau}$ becomes:
+%\begin{eqnarray}
+%% Resizes the equation to 92% of it's original size
+%\resizebox{.92\hsize}{!}{$
+%\hat{\tau}_{AWRS}=\frac{\alpha\beta(\alpha-1-c(\alpha+\beta-1))+\sqrt{-(\alpha^2)\beta^2(\Gamma-1+c(\alpha+\beta-1)(\Gamma-1))(1-\alpha(1+\beta)+\beta\Gamma+c(\alpha+\beta-1)(1+\beta\Gamma))}}{\alpha^2(1-\alpha+\beta(\Gamma-1)+c(\alpha+\beta-1)(1+\beta(\Gamma-1)))}
+%$}
+%\end{eqnarray}
+%As $\Gamma$ increases, $R_{AWRS}$ in Equation~\ref{eqn:reward_awrs} decreases.
+We introduce the break-even $\Gamma$, $\Gamma_{\mbox{BE}}$, which satisfies $R_{\mbox{AWRS}}=\alpha$.
+Increasing $\Gamma$ beyond $\Gamma = \Gamma_{\mbox{BE}}$ ($\Gamma > \Gamma_{\mbox{BE}}$) monotonically decreases the attacker's reward $R_{\mbox{AWRS}}$  % $R_{AWRS}=\alpha$
+and therefore further disincentivizes the rational attacker from launching FAW attack.
+%By setting $R_{AWRS}=\alpha$ and solving for $\Gamma$, we derive the break-even $\Gamma$ which the victim pool manager can use as a disincentive for the FAW attack.
+Solving for $\Gamma_{\mbox{BE}}$ yields:
+\begin{eqnarray}
+\Gamma_{\mbox{BE}}=\frac{\alpha(\beta+(-1+\alpha-c (\alpha+\beta-1))\tau}{\beta+\beta c(\alpha+\beta-1)}
+= \frac{\alpha}{1+ c(\alpha+\beta-1)}
+\label{eqn:Gamma_BE}
+\end{eqnarray}
+The second equality assumes that $\tau=0$, i.e., the attacker chooses the optimal strategy for maximizing its reward since he is rational and reward-incentive-driven;
+the attacker choosing a larger $\tau$ will provide smaller reward than honest mining.
+%Assuming that the attacker choose the optimal strategy for maximizing his reward, which is to mine honestly and $\tau=0$, then Equation~\ref{eqn:Gamma_BE} becomes:
+%%Because $\Gamma_{BE}$ still contains $\tau$, the pool manager needs to assume that the attacker will be maximizing their reward. To do this, we find that, assuming the break-even Gamma, $\hat{\tau}=0$, so
+%\begin{eqnarray}
+%\Gamma_{\mbox{BE}}=\frac{\alpha}{1+ c(\alpha+\beta-1)}
+%\label{eqn:Gamma_BE_tau0}
+%\end{eqnarray}
+
+For the rest of our analyses, we choose $\Gamma_{\mbox{BE}}$, which is the lower bound on the $\Gamma$ which rids of the incentives of FAW attack (the attacker's optimal strategy is honest mining).
+Reducing $\Gamma$ lowers the reward variance of the miners in the pool and is therefore desirable.

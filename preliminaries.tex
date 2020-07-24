@@ -1,0 +1,26 @@
+\section{Preliminaries: Mining, Fork, and Mining Pool}
+\label{sec:preliminaries}
+%The first block in a blockchain is called the genesis block and then every block proceeding it is build on top of the genesis.
+Each block in a blockchain contains a unique block header, where the hash of this header is used to identify the block. %The block header is 80-byte string consisting of a 4-byte Bitcoin version number, 32-byte previous block hash, 32-byte merkle root, 4-byte timestamp, 4-byte difficulty target, and a 4-byte nonce.
+The mining process based on the computational-puzzle-based proof of work (PoW) generates new blocks on the distributed blockchain,
+which results in the miner of the new block earning financial rewards.
+For a miner to find the next block in the blockchain, the miner needs to solve a computational puzzle
+which involves hashing the block header with varying nonces; 
+the solution (and the new block) corresponds to finding a nonce 
+such that the hash of the block header is less than a 256-bit threshold value, called the mining difficulty. The blockchain protocol adjusts the mining difficulty to scale with the advancement in computing, so that the mining of a new block occurs regularly in expectation, e.g., every ten minutes for Bitcoin.  %This difficulty is automatically adjusted frequently by the Bitcoin protocol in such a way that it will take roughly 10 minutes on average to find a valid block.
+In blockchain, when two miners find and submit valid blocks almost simultaneously, the blockchain network can disagree in the latest block because of the delay in networking and synchronization, which results in a \emph{fork}. % since the Bitcoin network is then split into multiple paths.
+The fork is resolved when a new block is mined on top of either of the forked blocks; 
+according to the protocol, the miners (including those which were mining on the other forked block) select the longest chain and update the block header for future mining. 
+%The chance that a block has a higher probability of being selected is determined by what majority of the network has already selected that block as the main block. 
+%A block is selected in the main chain only when majority of the network accepts that block.
+%%But, this leads to a popular attack, known as 51\% attack, where when any node in the network achieves a computing power that is greater than 50\% and gain full control over the network by being able to choose new transactions and invalidate old transactions.
+
+Since solo-mining has high reward variance, 
+miners form a \emph{mining pool} to pool/aggregate their computational resources and the corresponding reward winnings. 
+%forming a mining pool, solo-miners aggregate their computational power to make the reward variance low. 
+%But, in this scenario, a proper method is needed to determine the computational power of each miner such that the reward for mining a block can be distributed evenly to the miners in a pool.
+Because the mining pool distributes the reward according to the individual members' contributions in the PoW, it requires a mechanisms to keep track of the mining powers and contributions of each miner.
+%Here, the pool manager is responsible for ensuring the correct payment to the miners and submitting the valid block to the network. 
+%The method to do this is by using shares. The pool manager selects a block difficulty d $<$ D. hence, d is easier to compute than D. Any block that is mathematically less than d do not qualify as full block but is considered as share. The chance of generating a share (PPoW) is much greater than the chance of generating a valid block (FPoW). This is important because, it provides a way for the pool manager to measure the computational power of each of its miners, by keeping track of how many shares each miner submits.
+For such mechanisms, the mining pool uses \emph{shares}, which corresponds to the same PoW computational puzzle but with lower difficulty (higher threshold value) than that of the mining difficulty.
+Therefore, a share solution occurs more frequently than a block solution (providing a more accurate estimation of each miners' computation contributions), and a block solution is implicitly a share solution (a nonce solution for a block is also a solution for a share). 

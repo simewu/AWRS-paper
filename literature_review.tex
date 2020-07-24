@@ -1,0 +1,29 @@
+\section{Problem Statement: The Mining Threat}
+\label{sec:threat}
+
+\subsection{Related Work in Mining Threats} %Literature Review}
+\label{subsec:related_work}
+%There are two attacks which are related to FAW attack, selfish mining and block withholding attack.
+In blockchain mining, there are attacks which violate the mining protocol.
+More specifically, we review the attacks which specifically withhold the blocks to gain unfair reward advantage
+in selfish mining and Block Withholding (BWH) attack in this section;
+we discuss about the more recent Fork After Withholding (FAW) attack (which combines selfish mining and BWH)~\cite{b4} in Section~\ref{subsec:faw_attack}. 
+In selfish mining \cite{b8}, 
+%the attacker takes advantage of the blockchain fork resolution mechanism by purposefully generating forks. If an attacker finds a block, 
+if an attacker finds a block, the attacker will not broadcast the block immediately but continue to mine on it;
+the attacker will broadcast the block only if an honest miner's chain catches up to the attacker's. 
+%propagate that block immediately and, instead, he will wait and broadcast his block when a honest miner broadcasts theirs.
+As a result, the attacker can earn extra reward by invalidating honest miner's blocks, waste the honest miner's computations, 
+and launch double-spending attack. %However, the attacker should have greater computational power to win the race, otherwise, he can lose his block too.
+However, because it requires greater computational power, %Although, a selfish miner can execute double-spending attack, but the attack itself
+selfish mining is impractical \cite{b9}, \cite{b10}
+unless the attacker has the majority (greater than 50\%) of the network's computational power.
+
+In BWH attack \cite{b2}, the attacker pretends to contribute by submitting only shares to the victim pool
+and permanently withholds the block in the victim pool.
+As a result, the attacker increases the expected reward in its main pool (from which the attacker does not need to share the reward with others) while still sharing the rewards from the victim pool (due to the submitted shares).
+%When he %generates a block, he immediately drops it and thereby, the victim pool bears a loss.
+%finds a block, he permanently withholds it to increase the reward on the main pool (from which the attacker does not need to share the reward with others).
+In 2014, there was a BWH attack launched against Eligius mining pool, where the pool suffered a loss of 300 BTC.
+Eyal \cite{b5} modeled a BWH attack game between two mining pools and showed that the BWH attack creates mutual loss for both the mining pools, providing incentives for cooperations between the mining pools to avoid Miner's dilemma. Also, Bag et al. \cite{b3} propose a special reward to the block submitter to further incentivize block submissions (by introducing asymmetry to share submissions) and prevent BWH attack;
+our work builds on such approach but defends against a stronger attack in FAW attack. 

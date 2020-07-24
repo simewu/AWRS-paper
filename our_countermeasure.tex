@@ -1,0 +1,18 @@
+\section{Anti-Withholding Reward System}
+\label{sec:awrs}
+
+Our scheme called Anti-Withholding Reward System (AWRS) introduces greater incentives for block submission than the share submissions by introducing $\Gamma$ to control the pool's reward to the block submitter. 
+In other words, $\Gamma$ fraction of the pool's winnings goes to the block submitter while $1-\Gamma$ is distributed according to the share submissions, i.e., proportional to the number of shares for each miners. 
+Previously, $\Gamma$ is fixed at $\Gamma=0$ without AWRS. 
+$\Gamma=1$ yields solo mining because the block submitter receives all the pool reward and the share submissions do not affect the reward distributions.
+
+AWRS is effective against both FAW and BWH attacks. %and increases the resistance against withholding in general.
+To show the effectiveness of our scheme, however, we focus on FAW attack rather than BWH attack
+because FAW attack is the more advanced attack with greater attack/reward impact and can generalize BWH attack, as described in Section~\ref{subsec:faw_attack}.
+
+AWRS is implemented on the mining pool manager %     also only requires changes/updates in the mining pool manager implementation 
+because it only controls the reward distribution given out by the pool manager.
+Since it does not require any changes in the miner implementations, it has a low implementation barrier and is backward-compatible, which has been identified as a major challenge in the practicality of implementing the security defenses on blockchain~\cite{b4,b11}.
+
+
+
